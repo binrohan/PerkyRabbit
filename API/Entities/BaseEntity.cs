@@ -1,0 +1,13 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Entities
+{
+    public class BaseEntity
+    {
+        [Required]
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+}
