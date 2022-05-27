@@ -31,7 +31,7 @@ export class TicketService {
     return this.http.delete(this.baseUrl + id);
   }
 
-  createTicket(ticket: Ticket) {
-    return this.http.post(this.baseUrl, ticket);
+  addTicket(ticket: Ticket): Observable<ApiResponse<Ticket>> {
+    return this.http.post<ApiResponse<Ticket>>(this.baseUrl, ticket);
   }
 }

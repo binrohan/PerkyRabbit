@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Add New Ticket</h1>
+<div mat-dialog-content>
+  <div class="flex">
+    <mat-form-field appearance="fill" class="flex-1">
+      <mat-label>Enter Ticket Title</mat-label>
+      <input
+        matInput
+        placeholder="Ticket Title"
+        required
+        cdkFocusInitial
+        [(ngModel)]="ticket.title"
+        [formControl]="title"
+      />
+      <mat-error *ngIf="title.invalid">{{getTitleErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="flex-1" floatLabel="always">
+      <mat-label>Ticket Price</mat-label>
+      <input
+        matInput
+        placeholder="100.00"
+        required
+        type="number"
+        class="align-right"
+        [(ngModel)]="ticket.price"
+        [formControl]="price"
+      />
+      <span matPrefix>DBT&nbsp;</span>
+      <mat-error *ngIf="price.invalid">{{getPriceErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="fill" class="w-full" required>
+    <mat-label>Textarea</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="ticket.description"
+      [formControl]="description"
+    ></textarea>
+    <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage()}}</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="flex flex-end">
+  <button mat-stroked-button color="warn" (click)="onNoClick()">Close</button>
+  <button *ngIf="!ticket.id" mat-raised-button (click)="onAddTicket()" color="primary">
+    Add
+  </button>
+  <button *ngIf="ticket.id" mat-raised-button (click)="onAddTicket()" color="accent">
+    Update
+  </button>
+</div>
