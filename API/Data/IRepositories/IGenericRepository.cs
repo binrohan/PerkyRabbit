@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entities;
 
-namespace IRepository
+namespace Data.IRepositories
 {
     public interface IGenericRepository
     {

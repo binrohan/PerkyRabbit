@@ -13,9 +13,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Data;
-using IRepository;
-using Repository;
-using static IRepository.IGenericRepository;
+using Data.IRepositories;
+using Data.Repositories;
+using Data.Services;
+using Data.IServices;
+using static Data.IRepositories.IGenericRepository;
 
 namespace API
 {
@@ -53,6 +55,7 @@ namespace API
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

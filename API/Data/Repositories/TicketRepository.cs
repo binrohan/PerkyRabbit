@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
 using Entities;
-using IRepository;
+using Data.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository
+namespace Data.Repositories
 {
     public class TicketRepository : ITicketRepository
     {

@@ -4,7 +4,7 @@ using Data;
 using Dtos;
 using Entities;
 using Helpers;
-using IRepository;
+using Data.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

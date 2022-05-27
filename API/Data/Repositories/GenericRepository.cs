@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Data;
 using Entities;
 using Microsoft.EntityFrameworkCore;
-using static IRepository.IGenericRepository;
+using static Data.IRepositories.IGenericRepository;
 
-namespace Repository
+namespace Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
