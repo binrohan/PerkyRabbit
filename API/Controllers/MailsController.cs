@@ -12,19 +12,19 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmailsController : ControllerBase
+    public class MailsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _service;
 
-        public EmailsController(IUnitOfWork unitOfWork, IMailService service)
+        public MailsController(IUnitOfWork unitOfWork, IMailService service)
         {
             _unitOfWork = unitOfWork;
             _service = service;
         }
 
         [HttpPost("Send")]
-        public async Task<IActionResult> Send([FromForm] MailToSendDto mailDto)
+        public async Task<IActionResult> Send([FromBody] MailToSendDto mailDto)
         {
             await _service.SendAsync(mailDto);
 
@@ -54,7 +54,7 @@ namespace API.Controllers
             var mailsFromRepo = await _unitOfWork.Repository<Mail>()
                                                  .ListAsync(m => m.IsDeleted == isDeleted);
 
-            return Ok(new ApiResponse(200, ticketsFromRepo));
+            return Ok(new ApiResponse(200, mailsFromRepo));
         }
 
         [HttpPatch("{id}")]

@@ -32,7 +32,9 @@ export class AddTicketDialogComponent implements OnInit {
       return;
     }
 
-    this.ticket.createdAt = new Date();
+    this.ticket.createdAt = this.ticket.createdAt ?? new Date();
+    this.ticket.updatedAt = new Date();
+    
     this.dialogRef.close(this.ticket);
   }
 

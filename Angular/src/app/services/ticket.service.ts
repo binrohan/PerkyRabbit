@@ -23,12 +23,12 @@ export class TicketService {
     return this.http.get<ApiResponse<Ticket[]>>(this.baseUrl);
   }
 
-  updateUser(id: number, ticket: Ticket) {
-    return this.http.put(this.baseUrl + id, ticket);
+  updateTicket(id: number, ticket: Ticket): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.baseUrl + id, ticket);
   }
 
-  deleteTicket(id: number) {
-    return this.http.delete(this.baseUrl + id);
+  deleteTicket(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + id);
   }
 
   addTicket(ticket: Ticket): Observable<ApiResponse<Ticket>> {

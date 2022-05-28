@@ -1,6 +1,16 @@
 .example-icon {
-    padding: 0 14px;
-  }
-  .example-spacer {
-    flex: 1 1 auto;
-  }
+  padding: 0 14px;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+.flex{
+  display: flex;
+}
+.gap-4{
+  gap: 8px;
+}
+a.active{
+  box-shadow: none;
+  background-color: #4b62e0;
+}

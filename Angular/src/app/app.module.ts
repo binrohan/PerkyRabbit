@@ -15,15 +15,22 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { TicketsComponent } from './ticket.components/tickets/tickets.component';
 import { AddTicketDialogComponent } from './ticket.components/add-ticket-dialog/add-ticket-dialog.component';
+import { MailsComponent } from './mails/mails/mails.component';
+import { ReadMailDialogComponent } from './mails/read-mail-dialog/read-mail-dialog.component';
+import { SendMailDialogComponent } from './mails/send-mail-dialog/send-mail-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TicketsComponent,
-    AddTicketDialogComponent
+    AddTicketDialogComponent,
+    MailsComponent,
+    ReadMailDialogComponent,
+    SendMailDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,8 @@ import { AddTicketDialogComponent } from './ticket.components/add-ticket-dialog/
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

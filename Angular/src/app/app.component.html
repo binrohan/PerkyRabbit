@@ -2,8 +2,26 @@
   <mat-toolbar-row>
     <span>Angular Project</span>
     <span class="example-spacer"></span>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">list_alt</mat-icon>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">mail_outline</mat-icon>
+    <div class="flex gap-4">
+      <a
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        routerLink="/tickets" 
+        routerLinkActive="active"
+      >
+        <mat-icon>list_alt</mat-icon>
+      </a>
+      <a
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        routerLink="/mails"
+        routerLinkActive="active"
+      >
+        <mat-icon>mail_outline</mat-icon>
+      </a>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<app-tickets></app-tickets>
+<router-outlet></router-outlet>
