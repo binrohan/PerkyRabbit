@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using System.Threading.Tasks;
 using Data;
 using Entities;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Query;
 using static Data.IRepositories.IGenericRepository;
 
 namespace Data.Repositories
@@ -42,9 +46,9 @@ namespace Data.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync() 
+        public async Task<IReadOnlyList<T>> ListAsync(Expression<Func<T, bool>> predicate = null) 
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
         public IQueryable<T> Queryable()

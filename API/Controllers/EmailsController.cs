@@ -5,6 +5,7 @@ using Dtos;
 using Entities;
 using Helpers;
 using Data.IRepositories;
+using Data.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -14,85 +15,62 @@ namespace API.Controllers
     public class EmailsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _service;
 
-        public EmailsController(IUnitOfWork unitOfWork)
+        public EmailsController(IUnitOfWork unitOfWork, IMailService service)
         {
             _unitOfWork = unitOfWork;
+            _service = service;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> GetEmails()
-        // {
-        //     var EmailsFromRepo = await _unitOfWork.Repository<Mail>().GetByIdAsync(5);
+        [HttpPost("Send")]
+        public async Task<IActionResult> Send([FromForm] MailToSendDto mailDto)
+        {
+            await _service.SendAsync(mailDto);
 
-        //     return Ok(new ApiResponse(200, EmailsFromRepo));
-        // }
+            var mail = new Mail()
+            {
+                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                To = mailDto.To,
+                Subject = mailDto.Subject,
+                Body = mailDto.Body,
+                CC = mailDto.CC,
+                BCC = mailDto.BCC
+            };
 
-        // [HttpGet("{id}")]
-        // public async Task<IActionResult> GetEmail(int id)
-        // {
-        //     var mail = await _unitOfWork.Repository<Mail>().GetByIdAsync(id);
+            _unitOfWork.Repository<Mail>().Add(mail);
 
-        //     if(mail is null) return NotFound(new ApiResponse(404, "Email Not Found"));
+             var result = await _unitOfWork.Complete();
 
-        //     return Ok(new ApiResponse(200, mail));
-        // }
+            if(result <= 0) return BadRequest(new ApiResponse(400, "Failed To Save Mail"));
+            
+            return Ok(new ApiResponse(201, mail, "Mail Sent"));
+        }
 
-        // [HttpPost]
-        // public async Task<IActionResult> SaveEmail(EmailToCreateDto EmailToCreate)
-        // {
-        //     // Mapper can be used here
-        //     var mail = new Email
-        //     {
-        //         CreatedAt = DateTime.Now,
-        //         UpdatedAt = DateTime.Now,
-        //         Description = EmailToCreate.Description,
-        //         Price = EmailToCreate.Price,
-        //         Title = EmailToCreate.Title
-        //     };
+        [HttpGet]
+        public async Task<IActionResult> GetMails(bool isDeleted = false)
+        {
+            var mailsFromRepo = await _unitOfWork.Repository<Mail>()
+                                                 .ListAsync(m => m.IsDeleted == isDeleted);
 
-        //     _unitOfWork.Repository<Email>().Add(mail);
+            return Ok(new ApiResponse(200, ticketsFromRepo));
+        }
 
-        //     var result = await _unitOfWork.Complete();
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> DeleteMail(int id)
+        {
+            var mail = await _unitOfWork.Repository<Mail>().GetByIdAsync(id);
 
-        //     if(result <= 0) return BadRequest(new ApiResponse(400, "Failed To Create Email"));
+            if(mail is null) return NotFound(new ApiResponse(404, "Mail Not Found"));
 
-        //     return Ok(new ApiResponse(201, mail));
-        // }
+            mail.IsDeleted = true;
 
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> UpdateEmail([FromRoute]int id, [FromBody]EmailToUpdateDto EmailToUpdate)
-        // {
-        //     var mailFromRepo = await _unitOfWork.Repository<Email>().GetByIdAsync(id);
+            var result = await _unitOfWork.Complete();
 
-        //     if(mailFromRepo is null) return NotFound(new ApiResponse(404, "Email Not Found"));
-
-        //     mailFromRepo.Description = EmailToUpdate.Description;
-        //     mailFromRepo.Title = EmailToUpdate.Title;
-        //     mailFromRepo.Price = EmailToUpdate.Price;
-        //     mailFromRepo.UpdatedAt = DateTime.Now;
-
-        //     var result = await _unitOfWork.Complete();
-
-        //     if(result <= 0) return BadRequest(new ApiResponse(400, "Failed To Update Email"));
-
-        //     return Ok(new ApiResponse(204));
-        // }
-
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteEmail(int id)
-        // {
-        //     var mailFromRepo = await _unitOfWork.Repository<Email>().GetByIdAsync(id);
-
-        //     if(mailFromRepo is null) return NotFound(new ApiResponse(404, "Email Not Found"));
-
-        //     _unitOfWork.Repository<Email>().Delete(mailFromRepo);
-
-        //     var result = await _unitOfWork.Complete();
-
-        //     if(result <= 0) return BadRequest(new ApiResponse(400, "Failed To Delete Email"));
-
-        //     return Ok(new ApiResponse(200, "Succeeded"));
-        // }
+            if(result <= 0) return BadRequest(new ApiResponse(400, "Failed To Save Mail"));
+            
+            return Ok(new ApiResponse(205, "Mail Deleted"));
+        }
     }
 }

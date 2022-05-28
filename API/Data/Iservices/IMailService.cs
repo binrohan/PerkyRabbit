@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using API.Dtos;
+using Dtos;
 
 namespace Data.IServices
 {
     public interface IMailService
     {
-         Task SendAsync(MailToSend mail);
+        Task SendAsync(MailToSendDto mail);
     }
 }

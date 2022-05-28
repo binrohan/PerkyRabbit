@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Entities;
 
@@ -13,6 +14,7 @@ namespace Data.IRepositories
         {
             Task<T> GetByIdAsync(int id);
             Task<IReadOnlyList<T>> ListAllAsync();
+            Task<IReadOnlyList<T>> ListAsync(Expression<Func<T, bool>> predicate = null);
             public IQueryable<T> Queryable();
             void Add(T entity);
             void AddRange(IEnumerable<T> entities);

@@ -1,6 +1,7 @@
 using System.IO;
+using System;
 using System.Threading.Tasks;
-using API.Dtos;
+using Dtos;
 using API.Models;
 using Data.IServices;
 using MailKit.Net.Smtp;
@@ -14,24 +15,27 @@ namespace Data.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
-        private readonly IConfiguration _config;
 
-        public MailService(IOptions<MailSettings> mailSettings, IConfiguration config)
+        public MailService(IOptions<MailSettings> mailSettings)
         {
-            _config = config;
             _mailSettings = mailSettings.Value;
         }
-        public async Task SendAsync(MailToSend mail)
+        
+        public async Task SendAsync(MailToSendDto mail)
         {
             var email = new MimeMessage();
-
+            
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(_mailSettings.Mail));
+
+            email.To.Add(MailboxAddress.Parse(mail.To));
+            email.Cc.Add(MailboxAddress.Parse(mail.CC));
+            email.Bcc.Add(MailboxAddress.Parse(mail.BCC));
+            
             email.Subject = mail.Subject;
 
             var builder = new BodyBuilder();
-            builder.HtmlBody = mail.Body;
 
+            builder.HtmlBody = mail.Body.ToString();
             email.Body = builder.ToMessageBody();
 
             using var smtp = new SmtpClient();
@@ -39,9 +43,18 @@ namespace Data.Services
             smtp.Connect(_mailSettings.Host, _mailSettings.Port);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
 
-            await smtp.SendAsync(email);
-
-            smtp.Disconnect(true);
+            try
+            {
+                await smtp.SendAsync(email);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                smtp.Disconnect(true);
+            }
         }
     }
 }

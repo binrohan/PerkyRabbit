@@ -17,6 +17,7 @@ using Data.IRepositories;
 using Data.Repositories;
 using Data.Services;
 using Data.IServices;
+using API.Models;
 using static Data.IRepositories.IGenericRepository;
 
 namespace API
@@ -51,6 +52,8 @@ namespace API
                     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
+
+            services.Configure<MailSettings>(_config.GetSection("MailSettings"));
 
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

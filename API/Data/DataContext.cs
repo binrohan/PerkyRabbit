@@ -15,12 +15,11 @@ namespace Data
         }
 
         public DbSet<Ticket> Tickets { get; set; }
-        
+        public DbSet<Mail> Mails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
         }
     }
 }
