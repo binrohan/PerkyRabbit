@@ -1,1 +1,65 @@
-<p>send-mail-dialog works!</p>
+<form [formGroup]="mailForm" (ngSubmit)="onSubmit()">
+  <h1 mat-dialog-title>Compose New Mail</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Subject</mat-label>
+      <input
+        matInput
+        placeholder="Ticket Title"
+        required
+        cdkFocusInitial
+        [(ngModel)]="mail.subject"
+        formControlName="subject"
+        [disabled]="mail.id != undefined"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>To</mat-label>
+      <input
+        matInput
+        placeholder="Ticket Title"
+        required
+        cdkFocusInitial
+        [(ngModel)]="mail.to"
+        formControlName="to"
+        [disabled]="mail.id != undefined"
+      />
+    </mat-form-field>
+    <div class="flex">
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>CC</mat-label>
+        <input
+          matInput
+          placeholder="Ticket Title"
+          cdkFocusInitial
+          [(ngModel)]="mail.cc"
+          formControlName="cc"
+          [disabled]="mail.id != undefined"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>BCC</mat-label>
+        <input
+          matInput
+          placeholder="Ticket Title"
+          cdkFocusInitial
+          [(ngModel)]="mail.bcc"
+          formControlName="bcc"
+        />
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill" class="w-full" required>
+      <mat-label>Textarea</mat-label>
+      <textarea
+        matInput
+        required
+        [(ngModel)]="mail.body"
+        formControlName="body"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="flex flex-end">
+    <button mat-stroked-button color="warn" type="button" (click)="onNoClick()">Close</button>
+    <button *ngIf="!mail.id" mat-raised-button color="primary" type="submit">Send</button>
+  </div>
+</form>

@@ -1,0 +1,23 @@
+.flex {
+  display: flex;
+  gap: 4px;
+}
+.flex-1 {
+  flex: 1;
+}
+.flex-end {
+  justify-content: flex-end;
+}
+.w-full {
+  width: 100%;
+}
+.align-right {
+  text-align: right;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

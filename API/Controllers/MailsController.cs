@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMails(bool isDeleted = false)
+        public async Task<IActionResult> GetMails([FromQuery]bool isDeleted = false)
         {
             var mailsFromRepo = await _unitOfWork.Repository<Mail>()
                                                  .ListAsync(m => m.IsDeleted == isDeleted);
@@ -57,8 +57,8 @@ namespace API.Controllers
             return Ok(new ApiResponse(200, mailsFromRepo));
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> DeleteMail(int id)
+        [HttpPatch("Remove/{id}")]
+        public async Task<IActionResult> RemoveMail(int id)
         {
             var mail = await _unitOfWork.Repository<Mail>().GetByIdAsync(id);
 

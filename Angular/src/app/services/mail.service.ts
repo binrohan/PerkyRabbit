@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { FnParam } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -13,15 +14,17 @@ export class MailService {
 
   constructor(private http: HttpClient) { }
 
-  getMails(): Observable<ApiResponse<Mail[]>> {
-    return this.http.get<ApiResponse<Mail[]>>(this.baseUrl);
+  getMails(isDeleted: boolean = false): Observable<ApiResponse<Mail[]>> {
+    let params = new HttpParams().append('isDeleted', isDeleted);
+
+    return this.http.get<ApiResponse<Mail[]>>(this.baseUrl, {params: {isDeleted: isDeleted}});
   }
 
-  deleteMail(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + id);
+  removeMail(id: number): Observable<ApiResponse> {
+    return this.http.patch<ApiResponse>(this.baseUrl + 'remove/' + id, {});
   }
 
   sendMail(mail: Mail): Observable<ApiResponse<Mail>> {
-    return this.http.post<ApiResponse<Mail>>(this.baseUrl, mail);
+    return this.http.post<ApiResponse<Mail>>(this.baseUrl + 'send', mail);
   }
 }

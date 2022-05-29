@@ -22,6 +22,8 @@ import { AddTicketDialogComponent } from './ticket.components/add-ticket-dialog/
 import { MailsComponent } from './mails/mails/mails.component';
 import { ReadMailDialogComponent } from './mails/read-mail-dialog/read-mail-dialog.component';
 import { SendMailDialogComponent } from './mails/send-mail-dialog/send-mail-dialog.component';
+import { SentMailsComponent } from './mails/sent-mails/sent-mails.component';
+import { TrashMailsComponent } from './mails/trash-mails/trash-mails.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { SendMailDialogComponent } from './mails/send-mail-dialog/send-mail-dial
     AddTicketDialogComponent,
     MailsComponent,
     ReadMailDialogComponent,
-    SendMailDialogComponent
+    SendMailDialogComponent,
+    SentMailsComponent,
+    TrashMailsComponent
   ],
   imports: [
     BrowserModule,

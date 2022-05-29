@@ -28,8 +28,10 @@ namespace Data.Services
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
 
             email.To.Add(MailboxAddress.Parse(mail.To));
-            email.Cc.Add(MailboxAddress.Parse(mail.CC));
-            email.Bcc.Add(MailboxAddress.Parse(mail.BCC));
+            if(!String.IsNullOrEmpty(mail.CC))
+                email.Cc.Add(MailboxAddress.Parse(mail.CC));
+            if(!String.IsNullOrEmpty(mail.BCC))
+                email.Bcc.Add(MailboxAddress.Parse(mail.BCC));
             
             email.Subject = mail.Subject;
 

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ApiResponse } from 'src/app/models/ApiResponse';
+import { Mail } from 'src/app/models/Mail';
+import { MailService } from 'src/app/services/mail.service';
+import { SendMailDialogComponent } from '../send-mail-dialog/send-mail-dialog.component';
 
 @Component({
   selector: 'app-mails',
@@ -6,18 +11,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mails.component.scss']
 })
 export class MailsComponent implements OnInit {
-  displayedColumns: string[] = [
-    'id',
-    'title',
-    'price',
-    'description',
-    'createdAt',
-    'actions',
-  ];
-
   constructor() { }
 
   ngOnInit(): void {
-  }
 
+  }
 }
