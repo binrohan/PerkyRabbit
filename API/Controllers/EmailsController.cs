@@ -54,7 +54,7 @@ namespace API.Controllers
             var mailsFromRepo = await _unitOfWork.Repository<Mail>()
                                                  .ListAsync(m => m.IsDeleted == isDeleted);
 
-            return Ok(new ApiResponse(200, ticketsFromRepo));
+            return Ok(new ApiResponse(200, mailsFromRepo));
         }
 
         [HttpPatch("{id}")]

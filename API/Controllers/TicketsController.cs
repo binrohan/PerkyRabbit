@@ -51,7 +51,7 @@ namespace API.Controllers
                 Price = ticketToCreate.Price,
                 Title = ticketToCreate.Title
             };
-
+            
             _unitOfWork.Repository<Ticket>().Add(ticket);
 
             var result = await _unitOfWork.Complete();
