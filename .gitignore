@@ -2,6 +2,5 @@ obj
 bin
 node_modules
 .angular
-.vs
-.vscode
-*.vs/*
+# .vs
+# .vscode
