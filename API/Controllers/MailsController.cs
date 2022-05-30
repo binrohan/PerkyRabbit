@@ -12,19 +12,19 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmailsController : ControllerBase
+    public class MailsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _service;
 
-        public EmailsController(IUnitOfWork unitOfWork, IMailService service)
+        public MailsController(IUnitOfWork unitOfWork, IMailService service)
         {
             _unitOfWork = unitOfWork;
             _service = service;
         }
 
         [HttpPost("Send")]
-        public async Task<IActionResult> Send([FromForm] MailToSendDto mailDto)
+        public async Task<IActionResult> Send([FromBody] MailToSendDto mailDto)
         {
             await _service.SendAsync(mailDto);
 
@@ -49,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMails(bool isDeleted = false)
+        public async Task<IActionResult> GetMails([FromQuery]bool isDeleted = false)
         {
             var mailsFromRepo = await _unitOfWork.Repository<Mail>()
                                                  .ListAsync(m => m.IsDeleted == isDeleted);
@@ -57,8 +57,8 @@ namespace API.Controllers
             return Ok(new ApiResponse(200, mailsFromRepo));
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> DeleteMail(int id)
+        [HttpPatch("Remove/{id}")]
+        public async Task<IActionResult> RemoveMail(int id)
         {
             var mail = await _unitOfWork.Repository<Mail>().GetByIdAsync(id);
 
